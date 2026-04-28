@@ -27,6 +27,7 @@ On touch of Emerald, Green will Boost / Bounce upwards.
 
 ## Each color can phase.
 > make sure /startphase is toggled (use /stopphase to stop it)
+
 Red can phase through red concrete if going head on
 Blue can phase through light blue concrete if going head on
 Green can phase through lime concrete if going head on
