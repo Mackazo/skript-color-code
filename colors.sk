@@ -1,0 +1,242 @@
+on load:
+    set {color::bluedye} to light blue dye of mending 3 named "<#4158E0>&l&oBlue" with lore "&1BLUE"
+    set {color::reddye} to red dye of mending 3 named "<#E04141>&l&oRed" with lore "&4RED"
+    set {color::greendye} to lime dye of mending 3 named "<#76E366>&l&oGreen" with lore "&aGREEN"
+
+
+command /dye:
+    permission: op
+    trigger:
+        give player {color::reddye}
+        give player {color::bluedye}
+        give player {color::greendye}
+
+
+command /colorrole:
+    permission: op
+    trigger:
+        #seT the ROLES
+        set {color::*} to "Red", "Blue" and "Green"
+        
+       #RANDOM PICK
+        set {_role1} to random element out of {color::*}
+        
+        #TELL THE PLAYER
+        set {colorrole::%uuid of player%} to {_role1}
+        send "Your new role is: &6%{_role1}%"
+
+
+
+command /greenrole:
+    permission: op
+    trigger:
+        set {colorrole::%uuid of player%} to "Green"
+
+#---GREEN---
+on step on emerald block:
+    if {colorrole::%player%} is "Green":
+        push the player upwards with speed 1.2
+
+
+
+on rightclick:
+    player's tool is {color::greendye}:
+        set {colorrole::%uuid of player%} to "Green"
+
+
+every 10 tick:
+    loop all players:
+        if {colorrole::%uuid of loop-player%} is "Green":
+            send action bar "&aGreen" to loop-player
+
+#TRAIL
+every 10 tick:
+    loop all players:
+        if {colorrole::%uuid of loop-player%} is "Green":
+            set {_loc} to the location 1 block above and 0.8 block behind the loop-player
+            set {_loc1} to the location 1.1 blocks above the loop-player 
+                
+            set {_shape} to circle with radius 0.1
+            set particle of {_shape} to light green dust particle of size 0
+                
+            set loop-player's tablist name to "&a%loop-player%"
+            wait tick
+            draw 1 of entity effect using rgb(64, 230, 86) at {_loc}
+                
+
+
+
+
+on player move:
+    set {_block} to block below player
+
+    if {_block} is lime concrete:
+        if {colorrole::%player%} is not "Green":
+            delete {timer::%player's uuid%::active}
+            teleport player to location of player offset by vector(0, -4, 0)
+
+
+
+on player move:
+    set {_block1} to the block infront the player's head
+
+    if {_block1} is lime concrete:
+        if {phase::set} is true:
+            stop
+        if {colorrole::%player%} is "Green":
+            teleport player to location 3 blocks horizontally infront of the player
+
+
+#---BLUE---
+on step on diamond block:
+    if {colorrole::%player%} is "Blue":
+        apply speed 1 to the player for 5 seconds
+            
+
+
+
+on player move:
+    set {_block1} to the block infront the player's head
+
+    if {_block1} is light blue concrete:
+        if {phase::set} is true:
+            stop
+        if {colorrole::%player%} is "Blue":
+            teleport player to location 3 blocks horizontally infront of the player
+
+
+
+on rightclick:
+    player's tool is {color::bluedye}:
+        set {colorrole::%uuid of player%} to "Blue"
+
+every 10 tick:
+    loop all players:
+        if {colorrole::%uuid of loop-player%} is "Blue":
+            send action bar "&9Blue" to loop-player
+
+#TRAIL
+every 10 tick:
+    loop all players:
+        if {colorrole::%uuid of loop-player%} is "Blue":
+            set {_loc} to the location 1 block above and 0.8 block behind the loop-player
+            set {_loc1} to the location 1.1 blocks above the loop-player 
+                
+            set {_shape} to circle with radius 0.1
+            set particle of {_shape} to light green dust particle of size 0
+                
+            set loop-player's tablist name to "&b%loop-player%"
+            wait tick
+            draw 1 of entity effect using rgb(64, 141, 230) at {_loc}
+            
+
+
+
+
+on player move:
+    set {_block} to block below player
+
+    if {_block} is light blue concrete:
+        if {colorrole::%player%} is not "Blue":
+            delete {timer::%player's uuid%::active}
+            teleport player to location of player offset by vector(0, -4, 0)
+
+
+
+#---RED---
+on step on redstone block:
+    if {colorrole::%player%} is "Red":
+        push the player forwards with speed 3
+
+
+
+
+on player move:
+    set {_block1} to the block infront the player's head
+
+    if {_block1} is red concrete:
+        if {phase::set} is true:
+            stop
+        if {colorrole::%player%} is "Red":
+            teleport player to location 3 blocks horizontally infront of the player
+
+
+on rightclick:
+    player's tool is {color::reddye}:
+        set {colorrole::%uuid of player%} to "Red"
+
+
+every 10 tick:
+    loop all players:
+        if {colorrole::%uuid of loop-player%} is "red":
+            send action bar "&cRed" to loop-player
+
+#TRAIL
+every 10 tick:
+    loop all players:
+        if {colorrole::%uuid of loop-player%} is "Red":
+            set {_loc} to the location 1 block above and 0.8 block behind the loop-player
+            set {_loc1} to the location 1.1 blocks above the loop-player 
+                
+            set {_shape} to circle with radius 0.1
+            set particle of {_shape} to light green dust particle of size 0
+                
+            set loop-player's tablist name to "&c%loop-player%"
+            wait tick
+            draw 1 of entity effect using rgb(238, 100, 100) at {_loc}
+                
+
+
+
+
+on player move:
+    set {_block} to block below player
+
+    if {_block} is red concrete:
+        if {colorrole::%player%} is not "Red":
+            delete {timer::%player's uuid%::active}
+            teleport player to location of player offset by vector(0, -4, 0)
+
+on command:
+    if command is "ability":
+        if target entity of player is set:
+            pull target entity towards the player
+
+
+
+
+#---TIMER---
+
+on walk on gold block:
+    if {timer::%player's uuid%::active} is not set:
+        set {timer::%player's uuid%::start} to now
+        set {timer::%player's uuid%::active} to true
+        send "&aRace started! Reach the finish line." to player
+
+        while {timer::%player's uuid%::active} is true:
+            set {_time} to difference between {timer::%player's uuid%::start} and now
+            send action bar "&eTime: %{_time}%" to player
+            wait 1 tick
+
+
+
+on walk on iron block:
+    if {timer::%player's uuid%::active} is true:
+        set {_time} to difference between {timer::%player's uuid%::start} and now
+        delete {timer::%player's uuid%::active}
+        send action bar ""
+        send "&b&lFinished! &7You took: &e%{_time}%" to player
+    else:
+        send "&cYou must start the race first!" to player
+
+
+
+command /stopphase:
+    permission: op
+    trigger:
+        set {phase::set} to true
+
+command /startphase:
+    permission: op
+    trigger:
+        delete {phase::set}
