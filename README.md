@@ -13,7 +13,7 @@
 
 /dye gives you all the dye for the colors.
 
-#ABILITIES.
+# ABILITIES.
 
 All colors have 3 buffs/powers depending on how you see it.
 
